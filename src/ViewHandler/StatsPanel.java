@@ -1,4 +1,4 @@
-package View;
+package ViewHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class StatsPanel extends JPanel {
         distanceLabel.setHorizontalAlignment(0);
         this.add(visitedLabel);
         this.add(distanceLabel);
-        this.setBounds(20,250,360,100);
+        this.setBounds(20,250,360,90);
     }
 
     public void updateVisited(int visited) {
@@ -23,9 +23,6 @@ public class StatsPanel extends JPanel {
 
     public void updateDistance(int distance) {
         Graphics g = this.getGraphics();
-//        g.setColor(Color.black);
-//        g.drawString("Distance: "+ distance, 0, 0);
-//        distanceLabel = new JLabel("Distance: " + distance);
         distanceLabel.setText("Distance: " + distance);
     }
 

@@ -1,4 +1,4 @@
-package DataHandler;
+package ViewHandler;
 
 import java.awt.*;
 

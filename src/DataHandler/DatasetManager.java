@@ -31,5 +31,4 @@ public class DatasetManager {
     public static String[] fetchAllMatrixFiles() {
         return matrixFiles;
     }
-
 }

@@ -40,14 +40,40 @@ public class FileReader {
 
     public static MatrixData readMatrixFile(String fileName) {
         MatrixData data = new MatrixData(fileName);
+        int nodeCount = 0;
+        int count = 0;
+        ArrayList<Integer> tempStore = new ArrayList<Integer>();
         try {
             File myFile = new File(path+fileName);
             Scanner myReader = new Scanner(myFile);
             while (myReader.hasNextLine()) {
                 String d = myReader.nextLine();
                 String[] arr = d.split(" ");
-                if (NumberUtils.isDigits(arr[0])) {
-                    data.addPoint(Float.parseFloat(arr[1]), Float.parseFloat(arr[2]));
+                for (int i=0; i<arr.length; i++) {
+                    if (arr[i] == "DIMENSION:") {
+                        System.out.println("finally");
+                        System.out.println(i);
+                    }
+                    System.out.println(arr[i]);
+                }
+                if (arr[0] == "DIMENSION:") {
+                    nodeCount = Integer.parseInt(arr[1]);
+                    data.setNumNodes(nodeCount);
+                    System.out.println("heyyy");
+                    System.out.println(nodeCount);
+                }
+                if (arr[0] == "") {
+                    for (int i=0; i<arr.length; i++) {
+                        if (NumberUtils.isDigits(arr[i])) {
+                            tempStore.add(Integer.parseInt(arr[i]));
+                            count+=1;
+                            if (count == nodeCount) {
+                                data.addRow(tempStore);
+                                tempStore.clear();
+                                count = 0;
+                            }
+                        }
+                    }
                 }
             }
             myReader.close();

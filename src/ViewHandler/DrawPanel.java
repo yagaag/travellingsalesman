@@ -1,11 +1,8 @@
-package View;
-import DataHandler.Assets;
-import DataHandler.Rescaler;
+package ViewHandler;
 import DataHandler.Point;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 

@@ -2,7 +2,7 @@ package DataHandler;
 
 import java.util.ArrayList;
 
-public class Rescaler {
+public class CanvasHandler {
 
     public static ArrayList<Point> convertToPanelSizing(ArrayList<Point> points, int width, int height) {
         ArrayList<Point> rescaledPoints = new ArrayList<Point>();
@@ -44,4 +44,24 @@ public class Rescaler {
         }
         return rescaledPoints;
     }
+
+    public static ArrayList<Point> generatePointMatrix(int size, int width, int height) {
+        System.out.println(size);
+        ArrayList<Point> points = new ArrayList<>();
+        int rowGap = width / (size+2);
+        int colGap = height / (size+2);
+        int curRow = rowGap;
+        int curCol = colGap;
+        for (int i=0; i<size; i++) {
+            for (int j=0; j<size; j++) {
+                System.out.println(curRow);
+                System.out.println(curCol);
+                points.add(new Point(curRow, curCol));
+                curRow+=rowGap;
+                curCol+=colGap;
+            }
+        }
+        return points;
+    }
+
 }
