@@ -5,6 +5,8 @@ import DataHandler.DatasetType;
 import static DataHandler.DatasetType.*;
 
 import javax.swing.*;
+import java.beans.PropertyChangeListener;
+import java.util.Observable;
 
 public class SelectionPanel extends JPanel {
     private JRadioButton radioButton1 = new JRadioButton("Country");
@@ -64,6 +66,10 @@ public class SelectionPanel extends JPanel {
     }
 
     public String selectedFile() {
-        return String.valueOf(comboBox.getSelectedItem());
+        String fileName = String.valueOf(comboBox.getSelectedItem());
+        if (datasetType == COUNTRY) {
+            fileName = DatasetManager.fetchRegionFile(fileName);
+        }
+        return fileName;
     }
 }

@@ -46,22 +46,20 @@ public class CanvasHandler {
     }
 
     public static ArrayList<Point> generatePointMatrix(int size, int width, int height) {
-        System.out.println(size);
         ArrayList<Point> points = new ArrayList<>();
-        int rowGap = width / (size+2);
-        int colGap = height / (size+2);
-        int curRow = rowGap;
-        int curCol = colGap;
+
+        int rowGap = width / (size+1);
+        int colGap = width / (size+1);
+        int curRow = (int) (rowGap + (width*0.05));
+        int curCol = (int) (colGap + (height*0.05));
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
-                System.out.println(curRow);
-                System.out.println(curCol);
                 points.add(new Point(curRow, curCol));
-                curRow+=rowGap;
-                curCol+=colGap;
+                curCol += colGap;
             }
+            curRow += rowGap;
+            curCol = (int) (colGap + (height*0.05));
         }
         return points;
     }
-
 }

@@ -2,7 +2,7 @@ package DataHandler;
 
 import static DataHandler.Algorithm.NEAREST_NEIGHBOR;
 
-public class Data {
+public abstract class Data {
     protected String filename;
     private boolean regionAssociation;
 

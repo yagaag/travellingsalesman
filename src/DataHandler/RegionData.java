@@ -5,14 +5,12 @@ import java.util.Collections;
 import static DataHandler.Algorithm.*;
 
 public class RegionData extends Data {
-    private String region;
     private ArrayList<Point> points = new ArrayList<Point>();
     private ArrayList<Double> distances = new ArrayList<Double>();
     private boolean sorted = false;
 
-    public RegionData(String name, String regionName) {
+    public RegionData(String name) {
         super(name, true);
-        region = regionName;
     }
 
     public void addPoint(float x, float y) {

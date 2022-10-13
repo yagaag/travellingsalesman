@@ -42,7 +42,7 @@ public class App extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    private void travelAnimatedRegionData(ArrayList<Point> drawPoints, ArrayList<Double> distances) {
+    private void travelAnimated(ArrayList<Point> drawPoints, ArrayList<Double> distances) {
 
         int start = 0;
         int div = drawPoints.size() / 10;
@@ -69,30 +69,39 @@ public class App extends JFrame implements ActionListener {
 
     private void presentRegionData(RegionData data) {
         ArrayList<Point> drawPoints = CanvasHandler.convertToPanelSizing(data.getAllPoints(), drawPanel.getWidth(), drawPanel.getHeight());
+        System.out.println(drawPoints.get(0).xCoord());
+        System.out.println(drawPoints.get(0).yCoord());
         drawPanel.paintPoints(drawPanel.getGraphics(), drawPoints);
         ArrayList<Point> sortedDrawPoints = CanvasHandler.convertToPanelSizing(data.getSortedPoints(), drawPanel.getWidth(), drawPanel.getHeight());
         ArrayList<Double> sortedDistances = data.getSortedDistances();
         button.setText("Travelling...");
-        travelAnimatedRegionData(sortedDrawPoints, sortedDistances);
+        travelAnimated(sortedDrawPoints, sortedDistances);
     }
 
     private void presentMatrixData(MatrixData data) {
-        ArrayList<Point> drawPoints = CanvasHandler.generatePointMatrix(data.getNumNodes(), drawPanel.getWidth(), drawPanel.getHeight());
+        int numNodes = data.getNumNodes();
+        ArrayList<Point> drawPoints = CanvasHandler.generatePointMatrix(numNodes, drawPanel.getWidth(), drawPanel.getHeight());
         drawPanel.paintPoints(drawPanel.getGraphics(), drawPoints);
-//        ArrayList<Point>
+        ArrayList<Integer> path = data.getPath();
+        ArrayList<Double> distances = data.getDistances();
+        ArrayList<Point> pathPoints = new ArrayList<>();
+        pathPoints.add(drawPoints.get(0));
+        for (int i=1; i<numNodes; i++) {
+            int idx = numNodes*i + path.get(i);
+            pathPoints.add(drawPoints.get(idx));
+        }
+        button.setText("Travelling...");
+        travelAnimated(pathPoints, distances);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    private void runApp(DatasetType datasetType, String fileName) {
         Thread thread = new Thread() {
             public void run() {
                 button.setText("Calculating...");
-                visited = 0;
-                statsPanel.updateVisited(visited);
-                distance = 0;
-                statsPanel.updateDistance(distance);
-                DatasetType datasetType = selectionPanel.selectedDatasetType();
-                String fileName = selectionPanel.selectedFile();
+                if (!FileReader.validateFileExist(fileName)) {
+                    button.setText("File Missing :(");
+                    return;
+                }
                 if (datasetType == COUNTRY) {
                     RegionData data = FileReader.readRegionFile(fileName);
                     data.setAlgorithm(algorithm);
@@ -107,5 +116,16 @@ public class App extends JFrame implements ActionListener {
             }
         };
         thread.start();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        visited = 0;
+        statsPanel.updateVisited(visited);
+        distance = 0;
+        statsPanel.updateDistance(distance);
+        DatasetType datasetType = selectionPanel.selectedDatasetType();
+        String fileName = selectionPanel.selectedFile();
+        runApp(datasetType, fileName);
     }
 }

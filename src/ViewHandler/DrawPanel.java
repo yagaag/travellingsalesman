@@ -1,4 +1,5 @@
 package ViewHandler;
+import DataHandler.CustomTimer;
 import DataHandler.Point;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ public class DrawPanel extends JPanel {
     public void paintPoints(Graphics g, ArrayList<Point> points) {
         super.paintComponent(g);
         this.setBorder(BorderFactory.createLineBorder(Assets.accentColor, 2));
-
+        CustomTimer.timeDelay(100);
         g.setColor(Color.black);
         for (int i=0; i<points.size(); i++) {
             Point pt = points.get(i);

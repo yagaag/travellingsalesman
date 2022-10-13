@@ -9,17 +9,16 @@ public class FileReader {
 
     private static String path = "dataset/";
 
-    public static boolean validateFileExist(String filename) {
-        File myFile = new File(path+filename);
+    public static boolean validateFileExist(String fileName) {
+        File myFile = new File(path+fileName);
         if (myFile.exists()) {
             return true;
         }
         return false;
     }
 
-    public static RegionData readRegionFile(String regionName) {
-        String fileName = DatasetManager.fetchRegionFile(regionName);
-        RegionData data = new RegionData(fileName, regionName);
+    public static RegionData readRegionFile(String fileName) {
+        RegionData data = new RegionData(fileName);
         try {
             File myFile = new File(path+fileName);
             Scanner myReader = new Scanner(myFile);
@@ -40,40 +39,30 @@ public class FileReader {
 
     public static MatrixData readMatrixFile(String fileName) {
         MatrixData data = new MatrixData(fileName);
-        int nodeCount = 0;
-        int count = 0;
-        ArrayList<Integer> tempStore = new ArrayList<Integer>();
+        ArrayList<Integer> tempStor = new ArrayList<Integer>();
         try {
             File myFile = new File(path+fileName);
             Scanner myReader = new Scanner(myFile);
+            boolean dataStarted = false;
             while (myReader.hasNextLine()) {
                 String d = myReader.nextLine();
                 String[] arr = d.split(" ");
-                for (int i=0; i<arr.length; i++) {
-                    if (arr[i] == "DIMENSION:") {
-                        System.out.println("finally");
-                        System.out.println(i);
+                if (arr[0].contains("DIMENSION")) {
+                    int i=0;
+                    while (!NumberUtils.isDigits(arr[i])) {
+                        i+=1;
                     }
-                    System.out.println(arr[i]);
+                    data.setNumNodes(Integer.parseInt(arr[i]));
                 }
-                if (arr[0] == "DIMENSION:") {
-                    nodeCount = Integer.parseInt(arr[1]);
-                    data.setNumNodes(nodeCount);
-                    System.out.println("heyyy");
-                    System.out.println(nodeCount);
-                }
-                if (arr[0] == "") {
+                if (dataStarted) {
                     for (int i=0; i<arr.length; i++) {
                         if (NumberUtils.isDigits(arr[i])) {
-                            tempStore.add(Integer.parseInt(arr[i]));
-                            count+=1;
-                            if (count == nodeCount) {
-                                data.addRow(tempStore);
-                                tempStore.clear();
-                                count = 0;
-                            }
+                            tempStor.add(Integer.parseInt(arr[i]));
                         }
                     }
+                }
+                if (arr[0].contains("EDGE_WEIGHT_SECTION")) {
+                    dataStarted = true;
                 }
             }
             myReader.close();
@@ -81,6 +70,10 @@ public class FileReader {
             System.out.println("Unfortunately, the file was not found");
             e.printStackTrace();
         }
+        if (Math.sqrt(tempStor.size()) < data.getNumNodes()) {
+            data.setNumNodes((int) Math.sqrt(tempStor.size()));
+        }
+        data.addData(tempStor);
         return data;
     }
 }
