@@ -1,6 +1,15 @@
 package DataHandler;
 
-public class DatasetManager {
+/**
+ * This class DatasetManager stores the titles of the datasets available to demonstrate the Travelling Salesman problem
+ *
+ * @author yagaa
+ * @version 1.0.0
+ * @see <a href="https://www.math.uwaterloo.ca/tsp/world/countries.html">Data Source</a>
+ * @see <a href="http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/index.html">Data Source</a>
+ */
+public abstract class DatasetManager {
+
     private static String[] regions = {"Argentina", "Burma", "Canada", "China", "Djibouti", "Egypt", "Finland",
                                 "Greece", "Honduras", "Ireland", "Italy", "Japan", "Kazakhstan", "Luxembourg",
                                 "Morocco", "Nicaragua", "Oman", "Panama", "Qatar", "Rwanda", "Sweden", "Tanzania",
@@ -15,11 +24,22 @@ public class DatasetManager {
                                 "kro124p.atsp", "p43.atsp", "rbg323.atsp", "rbg358.atsp", "rbg403.atsp", "rbg443.atsp",
                                 "ry48p.atsp"};
 
+    /**
+     * Fetches all the regions available in the database
+     *
+     * @return List of regions
+     */
     public static String[] fetchAllRegions() {
         return regions;
     }
 
-    public static String fetchRegionFile(String region) {
+    /**
+     * Fetches a particular symmetric data file that corresponds to a particular region
+     *
+     * @param region Region whose file is needed
+     * @return filename of the region
+     */
+    public static String fetchSymmetricFile(String region) {
         for (int i = 0; i<regions.length; i++) {
             if (region == regions[i]) {
                 return regionFiles[i];
@@ -28,7 +48,12 @@ public class DatasetManager {
         return "Invalid Region";
     }
 
-    public static String[] fetchAllMatrixFiles() {
+    /**
+     * Fetches all the asymmetric files available in the database
+     *
+     * @return List of asymmetric files
+     */
+    public static String[] fetchAllAsymmetricFiles() {
         return matrixFiles;
     }
 }

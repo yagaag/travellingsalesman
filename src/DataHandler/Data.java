@@ -1,18 +1,30 @@
 package DataHandler;
+import static DataHandler.Algorithm.*;
 
-import static DataHandler.Algorithm.NEAREST_NEIGHBOR;
-
+/**
+ * Base class for storing dataset values
+ *
+ * @author yagaa
+ * @version 1.0.0
+ * @see SymmetricData
+ * @see AsymmetricData
+ */
 public abstract class Data {
     protected String filename;
-    private boolean regionAssociation;
-
     protected Algorithm algorithm = NEAREST_NEIGHBOR;
 
-    public Data(String name, boolean region) {
+    /**
+     * Initializes Data
+     * @param name File name of the data loaded into the object
+     */
+    public Data(String name) {
         filename = name;
-        regionAssociation = region;
     }
 
+    /**
+     * Sets the algorithm to be used to solve the problem
+     * @param algorithm The selected algorithm
+     */
     public void setAlgorithm(Algorithm algorithm) {
         this.algorithm = algorithm;
     }

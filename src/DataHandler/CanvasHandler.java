@@ -2,8 +2,24 @@ package DataHandler;
 
 import java.util.ArrayList;
 
-public class CanvasHandler {
+/**
+ * This class CanvasHandler contains functions to manipulate/create Point data to properly display on JPanels
+ *
+ * @author yagaa
+ * @version 1.0.0
+ * @see Point
+ * @see ViewHandler.DrawPanel
+ */
+public abstract class CanvasHandler {
 
+    /**
+     * Convert the given set of points to fit within a height and width retaining aspect ratio
+     *
+     * @param points Set of Points
+     * @param width Horizontal boundary
+     * @param height Vertical boundary
+     * @return Set of points fit within the stipulated boundary
+     */
     public static ArrayList<Point> convertToPanelSizing(ArrayList<Point> points, int width, int height) {
         ArrayList<Point> rescaledPoints = new ArrayList<Point>();
         double xMin = 1e10;
@@ -45,6 +61,14 @@ public class CanvasHandler {
         return rescaledPoints;
     }
 
+    /**
+     * Creates a matrix of points of needed size within a boundary
+     *
+     * @param size Size of the matrix to be created
+     * @param width Horizontal boundary
+     * @param height Vertical boundary
+     * @return Set of points forming a matrix of dimension size x size
+     */
     public static ArrayList<Point> generatePointMatrix(int size, int width, int height) {
         ArrayList<Point> points = new ArrayList<>();
 
