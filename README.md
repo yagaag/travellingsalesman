@@ -8,5 +8,5 @@ This is a dataset with city maps of 25+ countries to choose from ranging from 38
 2. TSPLIB dataset (Heidelberg Univesity)
 This dataset is composed of the distance between each city in a matrix format as opposed to coordinates.
 
-![demo](https://github.com/yagaag/travellingsalesman/blob/main/assets/demo.gif)
+![demo](assets/demo.gif)
 
