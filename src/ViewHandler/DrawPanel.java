@@ -35,9 +35,9 @@ public class DrawPanel extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Assets.accentColor, 2));
         CustomTimer.timeDelay(100);
         g.setColor(Color.black);
-        for (int i=0; i<points.size(); i++) {
+        for (int i = 0; i < points.size(); i++) {
             Point pt = points.get(i);
-            g.drawLine((int) pt.yCoord(), this.getHeight()-(int) pt.xCoord(), (int) pt.yCoord(), this.getHeight()-(int) pt.xCoord());
+            g.drawLine((int) pt.yCoord(), this.getHeight() - (int) pt.xCoord(), (int) pt.yCoord(), this.getHeight() - (int) pt.xCoord());
         }
     }
 
