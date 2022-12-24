@@ -24,7 +24,6 @@ public class App extends JFrame implements ActionListener {
     private StatsPanel statsPanel = new StatsPanel();
     private JButton button = new JButton("Start Travelling");
     private DrawPanel drawPanel = new DrawPanel();
-    private Algorithm algorithm = NEAREST_NEIGHBOR;
     private int visited = 0;
     private int distance = 0;
 
@@ -33,14 +32,14 @@ public class App extends JFrame implements ActionListener {
      */
     public App() {
         button.addActionListener(this);
-        JLabel algLabel = new JLabel("Algorithm: " + algorithm.name);
-        algLabel.setBounds(108, 130, 184, 30);
+//        JLabel algLabel = new JLabel("Algorithm: " + algorithm.name);
+//        algLabel.setBounds(108, 130, 184, 30);
         button.setBounds(100,180,200,50);
         this.setPreferredSize(new Dimension(400,800));
         this.setLayout(null);
         this.setTitle(title);
         this.add(selectionPanel);
-        this.add(algLabel);
+//        this.add(algLabel);
         this.add(button);
         this.add(statsPanel);
         this.add(drawPanel);
@@ -122,7 +121,7 @@ public class App extends JFrame implements ActionListener {
      * @param datasetType The type of dataset to run travelling salesman algorithm on
      * @param fileName The filename of the data to run travelling salesman algorithm on
      */
-    private void runApp(DatasetType datasetType, String fileName) {
+    private void runApp(DatasetType datasetType, String fileName, Algorithm algorithm) {
         Thread thread = new Thread() {
             public void run() {
                 button.setText("Calculating...");
@@ -159,6 +158,7 @@ public class App extends JFrame implements ActionListener {
         statsPanel.updateDistance(distance);
         DatasetType datasetType = selectionPanel.selectedDatasetType();
         String fileName = selectionPanel.selectedFile();
-        runApp(datasetType, fileName);
+        Algorithm algorithm = selectionPanel.selectedAlgorithm();
+        runApp(datasetType, fileName, algorithm);
     }
 }

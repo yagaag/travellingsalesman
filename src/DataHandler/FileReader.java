@@ -38,6 +38,7 @@ public abstract class FileReader {
      */
     public static SymmetricData readSymmetricDataFile(String file) {
         SymmetricData data = new SymmetricData(file);
+        ArrayList<Float> temp = new ArrayList<>();
         try {
             File myFile = new File(path+file);
             Scanner myReader = new Scanner(myFile);
@@ -45,9 +46,11 @@ public abstract class FileReader {
                 String d = myReader.nextLine();
                 String[] arr = d.split(" ");
                 if (arr[0].matches("-?\\d+")) {
+                    temp.add(Float.parseFloat(arr[2]));
                     data.addPoint(Float.parseFloat(arr[1]), Float.parseFloat(arr[2]));
                 }
             }
+            System.out.println();
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Unfortunately, the file was not found");

@@ -24,8 +24,8 @@ public abstract class CanvasHandler {
         ArrayList<Point> rescaledPoints = new ArrayList<Point>();
         double xMin = 1e10;
         double yMin = 1e10;
-        double xMax = 0;
-        double yMax = 0;
+        double xMax = -1e10;
+        double yMax = -1e10;
         for (int i=0; i<points.size(); i++) {
             if (points.get(i).xCoord() < xMin) {
                 xMin = points.get(i).xCoord();
@@ -40,9 +40,13 @@ public abstract class CanvasHandler {
                 yMax = points.get(i).yCoord();
             }
         }
+        System.out.println(xMin);
+        System.out.println(xMax);
+        System.out.println(yMin);
+        System.out.println(yMax);
         double xDiff = xMax - xMin;
         double yDiff = yMax - yMin;
-        double normFactor = (double) height;
+        double normFactor = height;
 
         double xAspect = normFactor * 0.8;
         double yAspect = normFactor * 0.8;
@@ -53,11 +57,15 @@ public abstract class CanvasHandler {
         else {
             xAspect = (xDiff / yDiff) * normFactor * 0.8;
         }
+
+        double xCorrection = (width-xAspect) / 2;
+        double yCorrection = (height-yAspect) / 2;
         for (int i=0; i<points.size(); i++) {
-            double xCoord = (((points.get(i).xCoord()-xMin) * xAspect) / xDiff) + (width * 0.1);
-            double yCoord = (((points.get(i).yCoord()-yMin) * yAspect) / yDiff) + (height * 0.1);
+            double xCoord = (((points.get(i).xCoord()-xMin) * xAspect) / xDiff) + xCorrection;
+            double yCoord = (((points.get(i).yCoord()-yMin) * yAspect) / yDiff) + yCorrection;
             rescaledPoints.add(new Point(xCoord, yCoord));
         }
+
         return rescaledPoints;
     }
 
