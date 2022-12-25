@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class App extends JFrame implements ActionListener {
 
-    private String title = "Travelling Salesman Problem";
+    private String title = "Travelling Salesman Visualizer";
     private SelectionPanel selectionPanel = new SelectionPanel();
     private StatsPanel statsPanel = new StatsPanel();
     private JButton button = new JButton("Start Travelling");
