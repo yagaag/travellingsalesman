@@ -40,10 +40,7 @@ public abstract class CanvasHandler {
                 yMax = points.get(i).yCoord();
             }
         }
-        System.out.println(xMin);
-        System.out.println(xMax);
-        System.out.println(yMin);
-        System.out.println(yMax);
+
         double xDiff = xMax - xMin;
         double yDiff = yMax - yMin;
         double normFactor = height;

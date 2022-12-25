@@ -1,7 +1,6 @@
 package ViewHandler;
-import DataHandler.Algorithm;
-import DataHandler.DatasetManager;
-import DataHandler.DatasetType;
+import DataHandler.*;
+
 import static DataHandler.DatasetType.*;
 
 import javax.swing.*;
@@ -24,7 +23,8 @@ public class SelectionPanel extends JPanel {
     JLabel algLabel = new JLabel("Select algorithm: ");
     private JComboBox<String> algorithmComboBox = new JComboBox<>();
     private DatasetType datasetType = SYMMETRIC;
-    private String[] fileList;
+
+    private AlgorithmTypes algorithm = SymmetricAlgorithmTypes.NEAREST_NEIGHBOR;
 
     /**
      * Initializes the DrawPanel and specifies visual aspects such as border and position;
@@ -41,7 +41,6 @@ public class SelectionPanel extends JPanel {
         radioButton2.addActionListener(e -> changeDataset(ASYMMETRIC));
         radioButton1.setBounds(170, 20, 98, 30);
         radioButton2.setBounds(268, 20, 120, 30);
-        fileList = DatasetManager.fetchAllRegions();
         populateDatasetComboBox();
         populateAlgorithmComboBox();
         fileLabel.setBounds(20, 67, 160, 40);
@@ -65,15 +64,8 @@ public class SelectionPanel extends JPanel {
     private void changeDataset(DatasetType type) {
         if (datasetType != type) {
             datasetType = type;
-            if (type == SYMMETRIC) {
-                fileList = DatasetManager.fetchAllRegions();
-                fileLabel.setText("Select country/region: ");
-            }
-            else {
-                fileList = DatasetManager.fetchAllAsymmetricFiles();
-                fileLabel.setText("Select file: ");
-            }
             populateDatasetComboBox();
+            populateAlgorithmComboBox();
         }
     }
 
@@ -82,16 +74,29 @@ public class SelectionPanel extends JPanel {
      */
     private void populateDatasetComboBox() {
         datasetComboBox.removeAllItems();
-        for (String s: fileList) {
-            datasetComboBox.addItem(s);
+        if (datasetType == SYMMETRIC) {
+            for (String file: DatasetManager.fetchAllRegions()) {
+                datasetComboBox.addItem(file);
+            }
+            fileLabel.setText("Select country/region: ");
+        } else {
+            for (String file: DatasetManager.fetchAllAsymmetricFiles()) {
+                datasetComboBox.addItem(file);
+            }
+            fileLabel.setText("Select file: ");
         }
     }
 
     private void populateAlgorithmComboBox() {
         algorithmComboBox.removeAllItems();
-        String[] algNames = {"Nearest Neighbor"};
-        for (String s: algNames) {
-            algorithmComboBox.addItem(s);
+        if (datasetType == SYMMETRIC) {
+            for (SymmetricAlgorithmTypes alg: SymmetricAlgorithmTypes.values()) {
+                algorithmComboBox.addItem(alg.name);
+            }
+        } else {
+            for (AsymmetricAlgorithmTypes alg: AsymmetricAlgorithmTypes.values()) {
+                algorithmComboBox.addItem(alg.name);
+            }
         }
     }
 
@@ -102,13 +107,12 @@ public class SelectionPanel extends JPanel {
         return datasetType;
     }
 
-    public Algorithm selectedAlgorithm() {
+    public AlgorithmTypes selectedAlgorithm() {
         String algName = String.valueOf(algorithmComboBox.getSelectedItem());
-        if (algName == "Nearest Neighbor") {
-            return Algorithm.NEAREST_NEIGHBOR;
-        }
-        else {
-            return Algorithm.NEAREST_NEIGHBOR;
+        if (datasetType == SYMMETRIC) {
+            return SymmetricAlgorithmTypes.fromString(algName);
+        } else {
+            return AsymmetricAlgorithmTypes.fromString(algName);
         }
     }
 

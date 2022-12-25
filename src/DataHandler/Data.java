@@ -1,5 +1,5 @@
 package DataHandler;
-import static DataHandler.Algorithm.*;
+import static DataHandler.SymmetricAlgorithmTypes.*;
 
 /**
  * Base class for storing dataset values
@@ -11,7 +11,7 @@ import static DataHandler.Algorithm.*;
  */
 public abstract class Data {
     protected String filename;
-    protected Algorithm algorithm = NEAREST_NEIGHBOR;
+    protected AlgorithmTypes algorithm = NEAREST_NEIGHBOR;
 
     /**
      * Initializes Data
@@ -25,7 +25,7 @@ public abstract class Data {
      * Sets the algorithm to be used to solve the problem
      * @param algorithm The selected algorithm
      */
-    public void setAlgorithm(Algorithm algorithm) {
+    public void setAlgorithm(AlgorithmTypes algorithm) {
         this.algorithm = algorithm;
     }
 }

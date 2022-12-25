@@ -3,7 +3,6 @@ import DataHandler.*;
 import DataHandler.Point;
 import DataHandler.DatasetType;
 import static DataHandler.DatasetType.*;
-import static DataHandler.Algorithm.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,14 +31,11 @@ public class App extends JFrame implements ActionListener {
      */
     public App() {
         button.addActionListener(this);
-//        JLabel algLabel = new JLabel("Algorithm: " + algorithm.name);
-//        algLabel.setBounds(108, 130, 184, 30);
         button.setBounds(100,180,200,50);
         this.setPreferredSize(new Dimension(400,800));
         this.setLayout(null);
         this.setTitle(title);
         this.add(selectionPanel);
-//        this.add(algLabel);
         this.add(button);
         this.add(statsPanel);
         this.add(drawPanel);
@@ -88,8 +84,8 @@ public class App extends JFrame implements ActionListener {
     private void presentSymmetricData(SymmetricData data) {
         ArrayList<Point> drawPoints = CanvasHandler.convertToPanelSizing(data.getAllPoints(), drawPanel.getWidth(), drawPanel.getHeight());
         drawPanel.paintPoints(drawPoints);
-        ArrayList<Point> sortedDrawPoints = CanvasHandler.convertToPanelSizing(data.getSortedPoints(), drawPanel.getWidth(), drawPanel.getHeight());
-        ArrayList<Double> sortedDistances = data.getSortedDistances();
+        ArrayList<Point> sortedDrawPoints = CanvasHandler.convertToPanelSizing(data.getAllPoints(), drawPanel.getWidth(), drawPanel.getHeight());
+        ArrayList<Double> sortedDistances = data.getDistances();
         button.setText("Travelling...");
         travelAnimated(sortedDrawPoints, sortedDistances);
     }
@@ -121,7 +117,7 @@ public class App extends JFrame implements ActionListener {
      * @param datasetType The type of dataset to run travelling salesman algorithm on
      * @param fileName The filename of the data to run travelling salesman algorithm on
      */
-    private void runApp(DatasetType datasetType, String fileName, Algorithm algorithm) {
+    private void runApp(DatasetType datasetType, String fileName, AlgorithmTypes algorithm) {
         Thread thread = new Thread() {
             public void run() {
                 button.setText("Calculating...");
@@ -132,11 +128,13 @@ public class App extends JFrame implements ActionListener {
                 if (datasetType == SYMMETRIC) {
                     SymmetricData data = FileReader.readSymmetricDataFile(fileName);
                     data.setAlgorithm(algorithm);
+                    SymmetricAlgorithm.runAlgorithm(data);
                     presentSymmetricData(data);
                 }
                 else {
                     AsymmetricData data = FileReader.readAsymmetricDataFile(fileName);
                     data.setAlgorithm(algorithm);
+                    AsymmetricAlgorithm.runAlgorithm(data);
                     presentAsymmetricData(data);
                 }
                 button.setText("Start Travelling");
@@ -158,7 +156,7 @@ public class App extends JFrame implements ActionListener {
         statsPanel.updateDistance(distance);
         DatasetType datasetType = selectionPanel.selectedDatasetType();
         String fileName = selectionPanel.selectedFile();
-        Algorithm algorithm = selectionPanel.selectedAlgorithm();
+        AlgorithmTypes algorithm = selectionPanel.selectedAlgorithm();
         runApp(datasetType, fileName, algorithm);
     }
 }

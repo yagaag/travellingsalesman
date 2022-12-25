@@ -18,7 +18,6 @@ public class AsymmetricData extends Data {
     private ArrayList<Integer> path = new ArrayList<Integer>();
     private ArrayList<Double> distances = new ArrayList<Double>();
     private int numNodes = 0;
-    private boolean pathFound = false;
 
     /**
      * Initialize AsymmetricData object
@@ -70,49 +69,29 @@ public class AsymmetricData extends Data {
         }
     }
 
-    /**
-     * Finds path to be taken from each node to minimize cost based on Nearest Neighbor algorithm
-     * @see <a href="https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm">Wiki</a>
-     */
-    private void findPathNearestNeighbor() {
-        path.add(0);
-        int curRow = 0;
-        Set<Integer> hash_Set = new HashSet<Integer>();
-        hash_Set.add(0);
-        for (int i=1; i<numNodes; i++) {
-            int minDist = (int) 1e10;
-            int minDistIdx = 0;
-            for (int j=0; j<numNodes; j++) {
-                if (!hash_Set.contains(j)) {
-                    if (costs.get(curRow).get(j) < minDist) {
-                        minDistIdx = j;
-                        minDist = costs.get(i-1).get(j);
-                    }
-                }
-            }
-            curRow = minDistIdx;
-            hash_Set.add(curRow);
-            path.add(minDistIdx);
-            distances.add(Double.valueOf(minDist));
-        }
+    public void setCosts(ArrayList<ArrayList<Integer>> costs) {
+        this.costs = costs;
+    }
+
+    public void setPath(ArrayList<Integer> path) {
+        this.path = path;
+    }
+
+    public void setDistances(ArrayList<Double> distances) {
+        this.distances = distances;
     }
 
     /**
-     * Finds path to be taken based on the currently selected algorithm
+     * @return Costs of travelling
      */
-    private void findPath() {
-        switch (super.algorithm) {
-            case NEAREST_NEIGHBOR -> findPathNearestNeighbor();
-        }
+    public ArrayList<ArrayList<Integer>> getCosts() {
+        return costs;
     }
 
     /**
      * @return Path to be taken starting at first node
      */
     public ArrayList<Integer> getPath() {
-        if (!pathFound) {
-            findPath();
-        }
         return path;
     }
 
@@ -120,9 +99,6 @@ public class AsymmetricData extends Data {
      * @return Distances of each path
      */
     public ArrayList<Double> getDistances() {
-        if (!pathFound) {
-            findPath();
-        }
         return distances;
     }
 }
