@@ -38,4 +38,4 @@ Further details about the data format are provided here-
 A Java ArrayList of points (x and y coordinates) is loaded from the tsp files. Your custom algorithm takes a SymmetricData object as input from which the points can be accessed. The solution is expected to be a sorted ArrayList of points in the order in which the salesman needs to travel which the algorithm should return.
 
 #### Asymmetric Dataset
-A Java ArrayList<ArrayList<Integer>> representing the cost of travel between cities is loaded from the atsp files. Your custom algorithm takes an AsymmetricData object as input from which this cost matrix can be accessed. The solution is expected to be a ArrayList of the path that the salesman needs to travel which the algorithm should return.
+A Java ArrayList of ArrayList of Integers representing the cost of travel between cities is loaded from the atsp files. Your custom algorithm takes an AsymmetricData object as input from which this cost matrix can be accessed. The solution is expected to be a ArrayList of the path that the salesman needs to travel which the algorithm should return.
