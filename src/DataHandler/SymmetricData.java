@@ -42,6 +42,10 @@ public class SymmetricData extends Data {
 
     public void setPoints(ArrayList<Point> points) {
         this.points = points;
+        for (int i=0; i<points.size()-2; i++) {
+            double dist = MathOps.eucDist(points.get(i), points.get(i+1));
+            distances.set(i+1, dist);
+        }
     }
 
     public void setDistances(ArrayList<Double> distances) {

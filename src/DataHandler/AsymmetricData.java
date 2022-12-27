@@ -75,6 +75,11 @@ public class AsymmetricData extends Data {
 
     public void setPath(ArrayList<Integer> path) {
         this.path = path;
+        distances.add(0.0);
+        for (int i=0; i<path.size()-2; i++) {
+            Double dist = Double.valueOf(costs.get(path.get(i)).get(path.get(i+1)));
+            distances.add(dist);
+        }
     }
 
     public void setDistances(ArrayList<Double> distances) {

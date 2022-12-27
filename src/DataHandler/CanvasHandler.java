@@ -79,7 +79,8 @@ public abstract class CanvasHandler {
         int rowGap = height / (size+1);
         int colGap = width / (size+1);
         int curRow = rowGap + (height - (rowGap*(size+1))) / 2;
-        int curCol = colGap + (width - (colGap*(size+1))) / 2;
+        int roundoffGap = colGap + (width - (colGap * (size + 1))) / 2;
+        int curCol = roundoffGap;
         for (int i=0; i<size; i++) {
             for (int j=0; j<size; j++) {
                 points.add(new Point(curRow, curCol));
@@ -87,7 +88,7 @@ public abstract class CanvasHandler {
                 System.out.println(curCol);
             }
             curRow += rowGap;
-            curCol = colGap + (width - (colGap*(size+1))) / 2;
+            curCol = roundoffGap;
         }
         return points;
     }

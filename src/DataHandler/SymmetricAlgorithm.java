@@ -9,9 +9,8 @@ public abstract class SymmetricAlgorithm {
      * Sort points based on the Nearest Neighbor Algorithm
      * @see <a href="https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm">Wiki</a>
      */
-    private static void nearestNeighbor(SymmetricData data) {
+    private static ArrayList<Point> nearestNeighbor(SymmetricData data) {
         ArrayList<Point> points = data.getAllPoints();
-        ArrayList<Double> distances = data.getDistances();
         for (int i=0; i<points.size()-2; i++) {
             double closest_dist = 1e10;
             int closest_idx = points.size()-1;
@@ -22,11 +21,9 @@ public abstract class SymmetricAlgorithm {
                     closest_dist = dist;
                 }
             }
-            distances.set(i+1, closest_dist);
             Collections.swap(points, i+1, closest_idx);
         }
-        data.setPoints(points);
-        data.setDistances(distances);
+        return points;
     }
 
     /**
@@ -34,7 +31,7 @@ public abstract class SymmetricAlgorithm {
      */
     public static void runAlgorithm(SymmetricData data) {
         switch ((SymmetricAlgorithmTypes) data.algorithm) {
-            case NEAREST_NEIGHBOR -> nearestNeighbor(data);
+            case NEAREST_NEIGHBOR -> data.setPoints(nearestNeighbor(data));
         }
     }
 }
